@@ -4,6 +4,7 @@ import "./globals.css";
 
 import Header from "../components/layout/Header";
 import Footer from "../components/layout/Footer";
+import MemphisBackground from "../components/ui/MemphisBackground";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,10 +28,17 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <Header />
-        {children}
-        <Footer />
-        </body>
+        <div className="relative isolate min-h-screen">
+          <MemphisBackground />
+
+          <Header />
+
+          <div className="relative z-10">
+            {children}
+            <Footer />
+          </div>
+        </div>
+      </body>
     </html>
   );
 }
