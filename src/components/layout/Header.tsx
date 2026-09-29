@@ -10,7 +10,7 @@ const navigation = [
   { label: "Contact", href: "#contact" },
 ];
 
-const resumePath = "/Rohit-Singh-Resume.pdf";
+const resumePath = "/resumes/Rohit-Singh-Resume.pdf";
 
 function DownloadIcon() {
   return (
