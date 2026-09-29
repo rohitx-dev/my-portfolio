@@ -15,7 +15,9 @@ export default function Hero() {
                 className="pointer-events-none absolute right-0 top-20 -z-10 h-80 w-80 rounded-full bg-violet-600/15 blur-3xl"
             />
 
-            <div className="mx-auto grid max-w-6xl items-center gap-14 px-5 py-20 sm:px-8 sm:py-24 lg:min-h-[calc(100svh-5rem)] lg:grid-cols-[1.2fr_1fr] lg:gap-16">
+            <div
+                className="mx-auto grid max-w-6xl items-center gap-14 px-5 pt-40 pb-16 sm:px-8 lg:grid-cols-[1.2fr_1fr] lg:gap-16"
+            >
                 {/* Introduction */}
                 <div className="hero-enter">
                     <p className="mb-6 inline-flex items-center gap-2 rounded-full border border-violet-400/20 bg-violet-400/5 px-4 py-2 text-xs font-medium tracking-wide text-violet-200">
@@ -53,7 +55,7 @@ export default function Hero() {
                         </a>
 
                         <a
-                            href="/Rohit-Singh-Resume.pdf"
+                            href="resumes/Rohit-Singh-Resume.pdf"
                             download="Rohit-Singh-Resume.pdf"
                             className="inline-flex items-center justify-center gap-2 rounded-lg border border-violet-400/40 px-5 py-3 text-sm font-medium text-violet-200 transition-colors hover:border-violet-400 hover:bg-violet-500/10 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-violet-400"
                         >
