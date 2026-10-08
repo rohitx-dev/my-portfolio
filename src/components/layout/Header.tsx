@@ -1,13 +1,16 @@
 "use client";
 
 import { useRef, useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const navigation = [
-  { label: "Home", href: "#home" },
-  { label: "About", href: "#about" },
-  { label: "Skills", href: "#skills" },
-  { label: "Projects", href: "#projects" },
-  { label: "Contact", href: "#contact" },
+  { label: "Home", href: "/#home" },
+  { label: "About", href: "/#about" },
+  { label: "Skills", href: "/#skills" },
+  { label: "Projects", href: "/#projects" },
+  { label: "Docs", href: "/docs" },
+  { label: "Contact", href: "/#contact" },
 ];
 
 const resumePath = "/resumes/Rohit-Singh-Resume.pdf";
@@ -33,6 +36,7 @@ function DownloadIcon() {
 }
 
 export default function Header() {
+  const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -49,8 +53,8 @@ export default function Header() {
       <div className="relative mx-auto max-w-6xl">
         <div className="flex h-16 items-center justify-between gap-3 rounded-full border border-white/10 bg-[#101729]/90 px-5 shadow-lg shadow-black/15 backdrop-blur-xl lg:grid lg:grid-cols-[1fr_auto_1fr] lg:gap-4 lg:px-7">
           {/* Left: Logo */}
-          <a
-            href="#home"
+          <Link
+            href="/#home"
             onClick={() => setMenuOpen(false)}
             aria-label="Rohit Singh — Home"
             className="shrink-0 justify-self-start whitespace-nowrap rounded text-lg font-bold tracking-tight focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-violet-400 sm:text-xl"
@@ -58,19 +62,20 @@ export default function Header() {
             <span className="bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
               ROHITSINGH.DEV
             </span>
-          </a>
+          </Link>
 
           {/* Center: Desktop navigation */}
           <nav
             aria-label="Main navigation"
             className="hidden lg:block"
           >
-            <ul className="flex items-center gap-3 text-sm font-medium text-slate-400">
+            <ul className="flex items-center gap-1 text-sm font-medium text-slate-400">
               {navigation.map((item) => (
                 <li key={item.href}>
-                  <a
+                  <Link
                     href={item.href}
-                    className="group relative inline-flex min-h-11 items-center rounded px-3 text-sm font-medium text-slate-400 transition-colors hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400"
+                    aria-current={pathname === item.href ? "page" : undefined}
+                    className="group relative inline-flex min-h-11 items-center rounded px-3 text-sm font-medium text-slate-400 transition-colors hover:text-white aria-[current=page]:text-violet-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400"
                   >
                     {item.label}
 
@@ -78,7 +83,7 @@ export default function Header() {
                       aria-hidden="true"
                       className="pointer-events-none absolute inset-x-3 bottom-1 h-0.5 origin-left scale-x-0 rounded-full bg-gradient-to-r from-indigo-400 to-purple-400 transition-transform duration-300 group-hover:scale-x-100 group-focus-visible:scale-x-100 motion-reduce:transition-none"
                     />
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -135,13 +140,14 @@ export default function Header() {
           <ul className="space-y-1">
             {navigation.map((item) => (
               <li key={item.href}>
-                <a
+                <Link
                   href={item.href}
+                  aria-current={pathname === item.href ? "page" : undefined}
                   onClick={() => setMenuOpen(false)}
-                  className="block rounded-xl px-4 py-3 text-sm font-medium text-slate-300 transition-colors hover:bg-violet-400/10 hover:text-white focus-visible:outline-2 focus-visible:outline-violet-400"
+                  className="block rounded-xl px-4 py-3 text-sm font-medium text-slate-300 transition-colors hover:bg-violet-400/10 hover:text-white aria-[current=page]:text-violet-200 focus-visible:outline-2 focus-visible:outline-violet-400"
                 >
                   {item.label}
-                </a>
+                </Link>
               </li>
             ))}
 
