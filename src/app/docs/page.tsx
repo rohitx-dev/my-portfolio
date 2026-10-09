@@ -16,6 +16,7 @@ export default async function DocsPage() {
     .from("documents")
     .select("id, name, description, original_filename, size_bytes, visibility")
     .eq("visibility", "public")
+    .eq("deletion_pending", false)
     .order("created_at", { ascending: false })
     .limit(50);
 

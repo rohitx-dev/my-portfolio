@@ -65,7 +65,7 @@ export async function changeVisibility(_previous: MutationResult, formData: Form
     if (error || !data) return { error: "The file is unavailable. It cannot be published." };
   }
   const { data, error } = await supabase.from("documents")
-    .update({ visibility }).eq("id", id).eq("owner_id", user.id).select("id").maybeSingle();
+    .update({ visibility }).eq("id", id).eq("owner_id", user.id).eq("deletion_pending", false).select("id").maybeSingle();
   if (error || !data) return { error: "Could not change visibility. Refresh and try again." };
   revalidatePath("/admin/documents");
   revalidatePath("/docs");

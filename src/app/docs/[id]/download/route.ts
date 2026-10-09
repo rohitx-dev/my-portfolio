@@ -14,9 +14,9 @@ export async function GET(_request: Request, { params }: { params: Promise<{ id:
   try {
     const supabase = await createClient();
     const { data: document, error } = await supabase.from("documents")
-      .select("owner_id, visibility, storage_path, original_filename").eq("id", id).maybeSingle();
+      .select("owner_id, visibility, storage_path, original_filename, deletion_pending").eq("id", id).maybeSingle();
     if (error) return new Response("Downloads are temporarily unavailable. Please try again.", { status: 503, headers });
-    if (!document) return notFound();
+    if (!document || document.deletion_pending) return notFound();
 
     if (document.visibility !== "public") {
       const { data, error: authError } = await supabase.auth.getUser();
