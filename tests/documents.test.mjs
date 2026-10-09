@@ -180,3 +180,9 @@ test('malformed IDs, missing records, and unavailable files never redirect', asy
   assert.equal((await download(fixture({ document: privateDocument, signError: {} }))).status, 404);
   assert.equal((await download(fixture({ queryError: {} }))).status, 503);
 });
+
+test('pending deletion cannot issue download links, even to the owner', async () => {
+  const f = fixture({ document: { ...privateDocument, deletion_pending: true } });
+  assert.equal((await download(f)).status, 404);
+  assert.equal(f.calls.some(([kind]) => kind === 'sign'), false);
+});

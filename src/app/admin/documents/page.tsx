@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import SignOutButton from "../../../components/auth/SignOutButton";
+import DocumentManageForm from "../../../components/docs/DocumentManageForm";
 import UploadForm from "../../../components/docs/UploadForm";
 import VisibilityForm from "../../../components/docs/VisibilityForm";
 import { formatFileSize } from "../../../lib/documents/validation";
@@ -17,8 +18,9 @@ export default async function OwnerDocumentsPage() {
   const { supabase, user } = await requireOwner();
   const { data: documents, error } = await supabase
     .from("documents")
-    .select("id, name, description, visibility, original_filename, size_bytes")
+    .select("id, name, description, visibility, original_filename, size_bytes, deletion_pending")
     .eq("owner_id", user.id)
+    .order("deletion_pending", { ascending: false })
     .order("created_at", { ascending: false })
     .limit(50);
 
@@ -47,7 +49,7 @@ export default async function OwnerDocumentsPage() {
           </div>
         ) : (
           <>
-            <p className="mt-3 text-sm text-slate-400">Showing up to 50 most recent documents.</p>
+            <p className="mt-3 text-sm text-slate-400">Showing up to 50 documents, with pending deletions first.</p>
             <ul className="mt-5 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
               {documents.map((document) => (
                 <li key={document.id} className="min-w-0 rounded-2xl border border-white/10 bg-[#101729]/80 p-6">
@@ -55,10 +57,11 @@ export default async function OwnerDocumentsPage() {
                   <h3 className="mt-5 break-words text-lg font-semibold text-white">{document.name}</h3>
                   <p className="mt-3 break-words text-sm leading-7 text-slate-400">{document.description || "No description added."}</p>
                   <p className="mt-4 break-all text-xs text-slate-400">{document.original_filename} · {formatFileSize(document.size_bytes)}</p>
-                  <div className="mt-5 flex flex-wrap items-start gap-3">
+                  {!document.deletion_pending && <div className="mt-5 flex flex-wrap items-start gap-3">
                     <a href={`/docs/${document.id}/download`} className="inline-flex min-h-11 items-center rounded-xl border border-violet-400/30 px-4 py-2 text-sm font-medium text-violet-200 hover:bg-violet-400/10 focus-visible:outline-2 focus-visible:outline-violet-400">Download</a>
                     <VisibilityForm id={document.id} visibility={document.visibility} />
-                  </div>
+                  </div>}
+                  <DocumentManageForm id={document.id} name={document.name} description={document.description} deletionPending={document.deletion_pending} />
                 </li>
               ))}
             </ul>
